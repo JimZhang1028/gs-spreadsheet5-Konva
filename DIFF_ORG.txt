@@ -1,0 +1,348 @@
+diff -r src/canvas/draw.js ../x-spreadsheet/src/canvas/draw.js
+240d239
+< /*
+267,320d265
+< */
+< //    } else if ( txtWidth > box.innerWidth()){
+< //     } else {
+<       const textLine = { len: 0, start: 0 };
+<       console.log(txt);
+<       for (let i = 0; i < txt.length; i += 1) {
+<         //console.log(txt.substring(textLine.start, i));
+<         //console.log(txt.substr(textLine.start+i, 1));
+<         //if (txt.substr(textLine.start+i, 1) == 'R') {
+<          let x = i - textLine.start;
+<         console.log("+ ",txt.substr(textLine.start+x, 1));
+<         if (txt.substr(textLine.start+x, 1) == '\n') {
+<           this.fillText(txt.substring(textLine.start, i), tx, ty);
+<           if (strike) {
+<             drawFontLine.call(this, 'strike', tx, ty, align, valign, font.size, textLine.len);
+<           }
+<           if (underline) {
+<             drawFontLine.call(this, 'underline', tx, ty, align, valign, font.size, textLine.len);
+<           }
+<           ty += font.size + 2; // next line
+<           textLine.len = 0;
+<           i++;                 // \n skip
+<           textLine.start = i;
+<          /*else if (textLine.len >= box.innerWidth()) {
+<           this.fillText(txt.substring(textLine.start, i), tx, ty);
+<           if (strike) {
+<             drawFontLine.call(this, 'strike', tx, ty, align, valign, font.size, textLine.len);
+<           }
+<           if (underline) {
+<             drawFontLine.call(this, 'underline', tx, ty, align, valign, font.size, textLine.len);
+<           }
+<           ty += font.size + 2;
+<           textLine.len = 0;
+<           textLine.start = i;
+<         }*/
+<         }else{
+<         textLine.len += ctx.measureText(txt[i]).width;
+<         }
+<       } //for
+<     
+<       if (textLine.len > 0) {
+<         console.log(">>",txt.substring(textLine.start));
+<           this.fillText(txt.substring(textLine.start), tx, ty);
+<           if (strike) {
+<             drawFontLine.call(this, 'strike', tx, ty, align, valign, font.size, textLine.len);
+<           }
+<           if (underline) {
+<             drawFontLine.call(this, 'underline', tx, ty, align, valign, font.size, textLine.len);
+<           }
+<         }
+<         
+<  //     }
+< 
+< /*
+329,330c274
+< */
+< //    }
+---
+>     }
+src/component のみに存在: .editor.js.swp
+src/component のみに存在: .sheet.js.swp
+src/component のみに存在: ]
+diff -r src/component/editor.js ../x-spreadsheet/src/component/editor.js
+9c9
+< //  if (!/^\s*$/.test(this.inputText)) {
+---
+>   if (!/^\s*$/.test(this.inputText)) {
+29c29
+< //  }
+---
+>   }
+33,49d32
+<     const keyCode = evt.keyCode || evt.which;
+<     const {
+<       key, ctrlKey, shiftKey, altKey, metaKey,
+<     } = evt;
+< 
+< /*
+<     if (altKey) {
+<       console.log("alt:",keyCode);
+<       switch (keyCode) {
+<         case 13:
+<             console.log("input alt+Enter");
+<             break;
+<       }
+< }   
+< */
+<   console.log("input:",evt);
+< 
+50a34
+>   // console.log(evt, 'v:', v);
+52c36
+<   this.inputText =  v ;
+---
+>   this.inputText = v;
+72,142d55
+< function keydownEventHandler(evt) {
+< 
+<     const keyCode = evt.keyCode || evt.which;
+<     const {
+<       key, ctrlKey, shiftKey, altKey, metaKey,
+<     } = evt;
+< 
+<   var v = evt.target.value;
+<   var t = evt.target;
+<                        console.log("input :", evt);
+<                        console.log("v :", t);
+< 
+<       if (altKey) {
+<             switch (keyCode) {
+<                  case 13:
+<                        console.log("input alt+Enter");
+<                        //v = 13;
+<                        //v = '&#13';
+<                        //t.value =  t.value + 13
+<                        //t.value =  t.value + '&#13;&#10;';
+<                        //t.value =  t.value + "&#10;";
+<                       // var newline = String.fromCharCode(13, 10);
+<                        var newline = String.fromCharCode(13,10 );
+<                        t.value =  t.value + newline;
+<                        //t.value =  t.value + "<pre>";
+<                        ;
+<                        break;
+<              }
+<        }
+<  
+< //  console.log("keydown:",evt);
+< 
+<   //const v = evt.target.value;
+<   const { suggest, textlineEl, validator } = this;
+<   this.inputText =  v ;
+<   if (validator) {
+<     if (validator.type === 'list') {
+<       suggest.search(v);
+<     } else {
+<       suggest.hide();
+<     }
+<   } else {
+<     if (typeof v === 'string' || v instanceof String) {
+<     const start = v.lastIndexOf('=');
+<     if (start !== -1) {
+<       suggest.search(v.substring(start + 1));
+<     } else {
+<       suggest.hide();
+<     }
+<     }
+<   }
+<   textlineEl.html(v);
+<   resetTextareaSize.call(this);
+<   this.change('textarea', v);
+< 
+<   ////
+<   /*
+<     var el = this;
+<   setTimeout(function(){
+<     el.style.cssText = 'height:auto; padding:0';
+<     // for box-sizing other than "content-box" use:
+<     // el.style.cssText = '-moz-box-sizing:content-box';
+<     el.style.cssText = 'height:' + el.scrollHeight + 'px';
+<   },0);
+<   */
+<       var textarea = evt.target;
+< 
+<    textarea.style.height = ""; /* Reset the height*/
+<   textarea.style.height = textarea.scrollHeight + "px";
+< }
+< 
+196,211d108
+< function textarea_autosize(){
+<       var rows = parseInt(textarea.getAttribute("rows"));
+<     // If we don't decrease the amount of rows, the scrollHeight would show the scrollHeight for all the rows
+<     // even if there is no text.
+<     textarea.setAttribute("rows", "1");
+< 
+<     if (rows < limitRows && textarea.scrollHeight > messageLastScrollHeight) {
+<         rows++;
+<     } else if (rows > 1 && textarea.scrollHeight < messageLastScrollHeight) {
+<         rows--;
+<     }
+< 
+<     messageLastScrollHeight = textarea.scrollHeight;
+<     textarea.setAttribute("rows", rows);
+< }
+< 
+229,234c126
+<        //   .on('input', evt => inputEventHandler.call(this, evt)),
+<           .on('keydown', evt => keydownEventHandler.call(this, evt)),
+<         //  .on('textarea', evt => textareaEventHandler.call(this, evt)),
+<         //this.textEl.attr("rows","5"),
+<         //this.textEl.attr("cols","5"),
+< 
+---
+>           .on('input', evt => inputEventHandler.call(this, evt)),
+330c222
+<     this.inputText = text ;
+---
+>     this.inputText = text;
+diff -r src/component/sheet.js ../x-spreadsheet/src/component/sheet.js
+171c171,173
+<   verticalScrollbar.set(height, data.rows.totalHeight());
+---
+>   const erth = data.exceptRowTotalHeight(0, -1);
+>   // console.log('erth:', erth);
+>   verticalScrollbar.set(height, data.rows.totalHeight() - erth);
+634,642d635
+< /*
+<     } else if (altKey) {
+<       switch (keyCode) {
+<         case 13:
+<         dataSetCellText.call(this, evt.key, 'input');
+<         editorSet.call(this);
+<             break;
+<       }
+< */
+678,679c671
+<         break;
+< 
+---
+>           break;
+681d672
+<           if (!altKey) {
+687d677
+<           }
+689d678
+< 
+diff -r src/component/table.js ../x-spreadsheet/src/component/table.js
+121a122
+>   // const exceptRows = Array.from(exceptRowSet);
+129a131,132
+> 
+>   const exceptRowTotalHeight = data.exceptRowTotalHeight(viewRange.sri, viewRange.eri);
+131d133
+<   // let bboxes = [];
+132a135
+>   draw.translate(0, -exceptRowTotalHeight);
+138,141d140
+<   // 2 render cell border
+<   // draw.save();
+<   // renderCellBorders.call(this, bboxes, (ri) => filteredTranslateFunc(ri));
+<   // draw.restore();
+143,144c142
+<   // / bboxes = [];
+<   // 3 render mergeCell
+---
+>   // 2 render mergeCell
+146a145
+>   draw.translate(0, -exceptRowTotalHeight);
+158,163c157
+<   // 4 render mergeCell border
+<   // draw.save();
+<   // renderCellBorders.call(this, bboxes, (ri) => filteredTranslateFunc(ri));
+<   // draw.restore();
+< 
+<   // 5 render autofilter
+---
+>   // 3 render autofilter
+diff -r src/core/data_proxy.js ../x-spreadsheet/src/core/data_proxy.js
+80,82c80,81
+< //    len: 100,
+<     len: 1000,
+<     height: 20,
+---
+>     len: 100,
+>     height: 25,
+85,86c84
+< //    len: 26,
+<     len: 1000,
+---
+>     len: 26,
+526c524,525
+<     const { ri, ci } = this.selector;
+---
+>     const { autoFilter, selector, rows } = this;
+>     const { ri, ci } = selector;
+530a530,531
+>     const oldCell = rows.getCell(nri, ci);
+>     const oldText = oldCell ? oldCell.text : '';
+532c533,544
+<     this.resetAutoFilter();
+---
+>     // replace filter.value
+>     if (autoFilter.active()) {
+>       const filter = autoFilter.getFilter(ci);
+>       if (filter) {
+>         const vIndex = filter.value.findIndex(v => v === oldText);
+>         if (vIndex >= 0) {
+>           filter.value.splice(vIndex, 1, text);
+>         }
+>         // console.log('filter:', filter, oldCell);
+>       }
+>     }
+>     // this.resetAutoFilter();
+953a966,978
+>   exceptRowTotalHeight(sri, eri) {
+>     const { exceptRowSet, rows } = this;
+>     const exceptRows = Array.from(exceptRowSet);
+>     let exceptRowTH = 0;
+>     exceptRows.forEach((ri) => {
+>       if (ri < sri || ri > eri) {
+>         const height = rows.getHeight(ri);
+>         exceptRowTH += height;
+>       }
+>     });
+>     return exceptRowTH;
+>   }
+> 
+956c981
+<       scroll, rows, cols, freeze,
+---
+>       scroll, rows, cols, freeze, exceptRowSet,
+965,966c990,993
+<       y += rows.getHeight(i);
+<       eri = i;
+---
+>       if (!exceptRowSet.has(i)) {
+>         y += rows.getHeight(i);
+>         eri = i;
+>       }
+990c1017,1019
+<       if (frary[i] < min) offset += 1;
+---
+>       if (frary[i] < min) {
+>         offset += 1;
+>       }
+diff -r src/index.less ../x-spreadsheet/src/index.less
+357,358c357
+< //      height:auto;
+< //      resize: none;
+---
+>       resize: none;
+362,366c361,363
+< //      color: inherit;
+<       color: red;
+< //      white-space: normal;
+<       white-space: pre;
+<  //     word-wrap: break-word;
+---
+>       color: inherit;
+>       white-space: normal;
+>       word-wrap: break-word;
+375c372
+<       top:10;
+---
+>       top: 0;
