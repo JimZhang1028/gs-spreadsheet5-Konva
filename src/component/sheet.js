@@ -389,6 +389,15 @@ function sync_horizontalScrollbarMove(distance) {
     table.render();
   });
 }
+
+/*
+function sync_shape_layer_move() {
+  const { data, table, selector } = this;
+    table.sync_move_laerd_cell();
+
+}
+*/
+
 function rowResizerFinished(cRect, distance) {
   const { ri } = cRect;
   const { table, selector, data } = this;
@@ -878,7 +887,11 @@ export default class Sheet {
   sync_movey(y) {
     sync_verticalScrollbarMove.call(this,y);
   }
-
+/*
+  sync_shape_layer() {
+    sync_shape_layer_move(this);
+  }
+  */
   getRect() {
     const { data } = this;
     return { width: data.viewWidth(), height: data.viewHeight() };

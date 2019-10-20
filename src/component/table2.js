@@ -229,6 +229,13 @@ if (element.shape === shape) {
   */
 
  this.render();
+ data.changeData( () => {});
+}
+
+function sync_move_layerd_Cell( name, shape, rindex, cindex) {
+
+   console.log("sync_move_layerd_cell");
+
 }
 
 class Shape extends Konva.Group{
@@ -409,13 +416,18 @@ var shape1 = new Shape({
              // console.log('dragstart');
 		            });
     shape1.on('dragend', function(e) {
-	     // console.log('dragend', e.target);
+	      console.log('dragend', e.target);
 	     // console.log('dragend', e.target.attrs.name);
 	     // console.log('dragend', e.target.attrs.x);
 	     // console.log('dragend', e.target.attrs.y);
-	      //const cRect = data.getCellRectByXY(evt.offsetX, evt.offsetY);
-	      const cRect = data.getCellRectByXY(e.target.attrs.x, e.target.attrs.y);
-	      //console.log('cRect', cRect);
+
+	      //const cRect = data.getCellRectByXY(e.target.attrs.x, e.target.attrs.y);
+
+	      let x = e.target.attrs.x + e.target.children[0].attrs.width/2;
+	      let y = e.target.attrs.y + e.target.children[0].attrs.height/2;
+	      //let x = e.target.attrs.x ;
+	      //let y = e.target.attrs.y ;
+	      const cRect = data.getCellRectByXY(x, y);
                            
                                //Group Layer Table
 		const table = e.target.parent.parent;
@@ -509,13 +521,20 @@ function layer_render(layer, layer_cell,viewRange, fw, fh, tx, ty){
 		  && element.data.cindex >= viewRange.sci && element.data.cindex <= viewRange.eci) {
               let {   
                     left, top, width, height, 
-                } = data.cellRect(element.data.rindex, element.data.cindex);
+                } = data.cellRect(element.data.rindex , element.data.cindex);
                                                                  
           
 //             console.log("layer_cell ", element.name,element.data.rindex, element.data.cindex 
 //                                                          , left, top);
                                                                       
              element.shape.absolutePosition( {x:  left + fw +tx, y:  top + fh +ty});
+             //element.shape.size( {width:  width, height:  height});
+                     element.shape.children[0].width( width );  // children[0] = Rect
+                     element.shape.children[0].height( height );  // children[0] = Rect
+                     //暫定処理
+                     let cell_address = stringAt(element.data.cindex) + String(element.data.rindex + 1);
+                     element.shape.children[1].text(element.data.name + " / " + cell_address);
+
              element.shape.show();
             } else {
              //console.log("layer_cell hide", element.name,element.data.rindex, element.cindex );
@@ -576,6 +595,7 @@ function layer_render_new(viewRange, fw, fh, tx, ty){
      //if (viewRange_check(data, viewRange, element.rindex, element.cindex)) {
      //element.shape.absolutePosition( {x:  left + fw , y:  top + fh });
          element.shape.absolutePosition( {x:  left + fw +tx, y:  top + fh +ty});
+         element.shape.size( {width:  width, height:  height});
          element.shape.show();
 
      } else {

@@ -1100,6 +1100,7 @@ export default class DataProxy {
     cb();
     this.change(this.getData());
 
+    
     //splitSheets.length
     this.v_splitSheets.forEach(function(sheet) {
       sheet.sync();
@@ -1107,6 +1108,7 @@ export default class DataProxy {
     this.h_splitSheets.forEach(function(sheet) {
       sheet.sync();
     });
+    
   }
 
   setData(d) {
