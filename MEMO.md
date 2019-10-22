@@ -1,4 +1,5 @@
 ## CHANGE DATA SYNC
+```
 sheet                                  table                   dataproxy
 ------------------------------------------------------------------------------------
 
@@ -9,10 +10,10 @@ sync                                                            <---  h_splitShe
 |
 dataSync
  -->                                   render()
-
+```
 
 ## SCROLL SPLIT WINDOW SYNC
-
+```
 sheet                                  table                   dataproxy
 ------------------------------------------------------------------------------------
 ### SELF SHEET UPDATE
