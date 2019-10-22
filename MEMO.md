@@ -17,7 +17,7 @@ dataSync
 sheet                                  table                   dataproxy
 ------------------------------------------------------------------------------------
 ### SELF SHEET UPDATE
-```
+
 scrollbarMove
 
  |
@@ -27,10 +27,10 @@ scrollbarMove
   --->                                                     scrollx(x, cb)
 
                                       render()              <---cb 
-```
+
 
 ### SPLIT SHEET UPDATE
-```
+
                                                            scrollx(x,cb)
 
 sync_movex(x)                                               <---cb
@@ -46,11 +46,11 @@ sync_movex(x)                                               <---cb
 ```
                                  
 ## SHAPE MOVE SPLIT WINDOW SYNC
-
+```
 sheet                                  table                   dataproxy
 ------------------------------------------------------------------------------------
 ### SELF SHEET UPDATE
-```
+
                                   shape.on
 
                                    |
